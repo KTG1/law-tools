@@ -156,6 +156,11 @@ blockquote { margin: 0; font: 400 clamp(25px, 3vw, 39px)/1.18 var(--editorial); 
 .state-status > p:first-child { font: 900 9px/1 var(--display); letter-spacing: .16em; }
 .state-status h2 { font: 900 27px/1.02 var(--display); letter-spacing: -.045em; margin: 30px 0 12px; }
 .state-status > p:last-child { font-size: 11px; line-height: 1.6; }
+.state-calculator-area { padding: 78px max(4.5vw, calc((100vw - 1180px)/2)) 100px; background: var(--ink); }
+.state-calculator-intro { display: flex; justify-content: space-between; gap: 30px; align-items: end; margin: 0 0 46px; }
+.state-calculator-intro .eyebrow { color: var(--signal); margin: 0; }
+.state-calculator-intro > p:last-child { max-width: 520px; margin: 0; color: #aeb7d3; font-size: 12px; line-height: 1.6; }
+.state-calculator-area .calculator-shell { margin: 0 auto; }
 .state-guide-content { padding: 105px max(4.5vw, calc((100vw - 1180px)/2)); background: white; display: grid; grid-template-columns: 1.5fr .5fr; gap: 7vw; align-items: start; }
 .state-guide-main > h2 { max-width: 760px; margin: 16px 0 20px; font: 900 clamp(42px, 5vw, 68px)/.94 var(--display); letter-spacing: -.058em; }
 .state-guide-main > p:not(.eyebrow) { color: var(--muted); line-height: 1.65; max-width: 720px; }
@@ -258,6 +263,9 @@ footer > div { display: flex; justify-content: flex-end; gap: 24px; font-size: 1
   .state-guide-hero h1 { font-size: 52px; }
   .state-primary-link { min-width: 0; width: 100%; }
   .state-guide-content, .related-states { padding: 75px 18px; }
+  .state-calculator-area { padding: 70px 18px 80px; }
+  .state-calculator-intro { display: block; }
+  .state-calculator-intro > p:last-child { margin-top: 14px; }
   .state-factor-list article { min-height: auto; }
   .related-state-links a:nth-child(odd), .related-state-links a:nth-child(even) { padding: 15px 4px; border-left: 0; }
   .editorial-note { grid-template-columns: 1fr; }

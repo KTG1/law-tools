@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getState, states } from "@/lib/states";
+import { SettlementCalculator } from "@/components/SettlementCalculator";
 
 type StatePageProps = { params: Promise<{ slug: string }> };
 
@@ -44,7 +45,7 @@ export default async function StateGuide({ params }: StatePageProps) {
           <Link href="/#states">All states</Link>
           <Link href="/#faq">FAQ</Link>
         </nav>
-        <Link className="header-action" href="/#calculator">Open calculator</Link>
+        <a className="header-action" href="#calculator">Open calculator</a>
       </header>
 
       <nav className="state-breadcrumb" aria-label="Breadcrumb">
@@ -57,13 +58,21 @@ export default async function StateGuide({ params }: StatePageProps) {
           <p className="eyebrow"><span>State guide</span> · {state.code}</p>
           <h1 id="state-title">{state.name} Personal Injury Settlement Calculator</h1>
           <p>Use a transparent planning model to organize documented losses, injury impact, and possible fault before reviewing the {state.name}-specific rules that may change a claim.</p>
-          <Link className="state-primary-link" href="/#calculator">Calculate a general settlement range <span>→</span></Link>
+          <a className="state-primary-link" href="#calculator">Calculate a general settlement range <span>→</span></a>
         </div>
         <aside className="state-status" aria-labelledby="review-status-heading">
           <p>LEGAL REVIEW STATUS</p>
           <h2 id="review-status-heading">{state.name} law is not yet applied</h2>
           <p>The current calculator does not apply state statutes, deadlines, damage caps, or negligence rules. Its output remains a general educational range.</p>
         </aside>
+      </section>
+
+      <section className="state-calculator-area" aria-label={`${state.name} settlement calculator`}>
+        <div className="state-calculator-intro">
+          <p className="eyebrow">Use the tool here</p>
+          <p>{state.name} is preselected for context. The calculation remains the same transparent general model used on the homepage.</p>
+        </div>
+        <SettlementCalculator initialState={state.name} />
       </section>
 
       <section className="state-guide-content" aria-labelledby="value-heading">
