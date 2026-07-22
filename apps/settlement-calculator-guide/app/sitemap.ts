@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { states } from "@/lib/states";
+import { cityGuides } from "@/lib/cities";
 
 const siteUrl = "https://settlementcalculator.guide";
 
@@ -12,6 +13,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteUrl}/states/${state.slug}/`,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...cityGuides.map((city) => ({
+      url: `${siteUrl}/states/${city.stateSlug}/${city.slug}/`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }

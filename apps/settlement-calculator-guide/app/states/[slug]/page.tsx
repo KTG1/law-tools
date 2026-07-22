@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getState, states } from "@/lib/states";
+import { getCitiesForState } from "@/lib/cities";
 import { SettlementCalculator } from "@/components/SettlementCalculator";
 
 type StatePageProps = { params: Promise<{ slug: string }> };
@@ -32,6 +33,7 @@ export default async function StateGuide({ params }: StatePageProps) {
   if (!state) notFound();
 
   const relatedStates = states.filter((item) => item.code !== state.code).slice(0, 8);
+  const stateCities = getCitiesForState(state.code);
 
   return (
     <main className="state-page">
@@ -92,6 +94,23 @@ export default async function StateGuide({ params }: StatePageProps) {
           </ul>
           <p>This checklist identifies research questions; it does not answer them or replace advice from a qualified {state.name} lawyer.</p>
         </aside>
+      </section>
+
+      <section className="related-cities" aria-labelledby="cities-heading">
+        <div className="city-section-heading">
+          <p className="eyebrow"><span>Local guides</span> · {state.code}</p>
+          <h2 id="cities-heading">Cities in {state.name}</h2>
+          <p>Open a city page while keeping the calculator and legal research context tied to {state.name}.</p>
+        </div>
+        <div className="city-guide-links">
+          {stateCities.map((city, index) => (
+            <Link href={`/states/${state.slug}/${city.slug}`} key={city.slug}>
+              <span>0{index + 1}</span>
+              <strong>{city.name}</strong>
+              <small>{state.code} city guide ↗</small>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section className="related-states" aria-labelledby="related-heading">

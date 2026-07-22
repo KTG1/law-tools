@@ -66,6 +66,8 @@ const fmt = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+const articleFor = (value: string) => (/^[aeiou]/i.test(value) ? "an" : "a");
+
 type SettlementCalculatorProps = {
   initialState?: string;
   stateCode?: string;
@@ -116,11 +118,11 @@ export function SettlementCalculator({ initialState = "Not selected", stateCode 
   const isStateContext = initialState !== "Not selected";
   const heading = !isStateContext
     ? "Estimate your personal injury settlement range"
-    : `Calculate a ${initialState} personal injury settlement range`;
+    : `Calculate ${articleFor(initialState)} ${initialState} personal injury settlement range`;
   const resultHeading = isStateContext
     ? `${initialState} settlement planning range`
     : "Your estimated settlement range";
-  const claimArticle = /^[aeiou]/i.test(caseType) ? "an" : "a";
+  const claimArticle = articleFor(caseType);
   const lawState = state !== "Not selected" ? state : initialState;
   const lawStateCode = states.find((item) => item.name === lawState)?.code ?? stateCode ?? "STATE";
 
@@ -214,7 +216,7 @@ export function SettlementCalculator({ initialState = "Not selected", stateCode 
           <div className="related-law-heading">
             <div>
               <p>Related law segment · {lawStateCode}</p>
-              <h2 id="related-law-heading">Legal checks for a {lawState} settlement estimate</h2>
+              <h2 id="related-law-heading">Legal checks for {articleFor(lawState)} {lawState} settlement estimate</h2>
             </div>
             <span>Research status: verify current primary law</span>
           </div>

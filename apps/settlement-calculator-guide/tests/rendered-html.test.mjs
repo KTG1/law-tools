@@ -51,6 +51,25 @@ test("server-renders an indexable state settlement guide", async () => {
   assert.match(normalizedHtml, /Fault rules/);
   assert.match(normalizedHtml, /Which California filing deadline controls/);
   assert.match(normalizedHtml, /does not state the controlling law/);
+  assert.match(normalizedHtml, /Cities in California/);
+  assert.match(html, /href="\/states\/california\/los-angeles"/);
+  assert.ok(normalizedHtml.indexOf("Cities in California") < normalizedHtml.indexOf("Other state settlement guides"));
+  assert.match(html, /href="\/states\/alabama"/);
+  assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
+});
+
+test("server-renders a nested city settlement guide", async () => {
+  const response = await render("/states/alabama/birmingham");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  const normalizedHtml = html.replaceAll(/<!--.*?-->/g, "");
+  assert.match(normalizedHtml, /Birmingham, Alabama Personal Injury Settlement Calculator/);
+  assert.match(normalizedHtml, /Birmingham context, Alabama law/);
+  assert.match(normalizedHtml, /Calculate an Alabama personal injury settlement range/);
+  assert.match(normalizedHtml, /Legal checks for an Alabama settlement estimate/);
+  assert.match(normalizedHtml, /What to organize for a claim connected with Birmingham/);
+  assert.match(html, /href="\/states\/alabama\/montgomery"/);
   assert.match(html, /href="\/states\/alabama"/);
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
