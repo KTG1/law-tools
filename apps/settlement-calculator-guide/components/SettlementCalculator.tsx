@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type KeyboardEvent } from "react";
 import { states } from "@/lib/states";
 
 type MoneyKey = "medical" | "futureMedical" | "lostIncome" | "property" | "other";
 type MoneyFields = Record<MoneyKey, number>;
+type LawTabId = "deadline" | "fault" | "damages" | "coverage";
 
 const moneyLabels: Array<{ key: MoneyKey; label: string; hint: string }> = [
   { key: "medical", label: "Medical expenses", hint: "Bills paid or outstanding" },
@@ -20,6 +21,43 @@ const severityBands = [
   { label: "Significant", detail: "Long recovery or lasting symptoms", low: 1.75, high: 3.5 },
   { label: "Severe", detail: "Major treatment or long-term effects", low: 2.75, high: 4.75 },
   { label: "Catastrophic", detail: "Permanent, life-changing injury", low: 4, high: 6.5 },
+];
+
+const lawTabs: Array<{
+  id: LawTabId;
+  label: string;
+  heading: (stateName: string) => string;
+  summary: (stateName: string) => string;
+  checks: string[];
+}> = [
+  {
+    id: "deadline",
+    label: "Filing deadline",
+    heading: (stateName) => `Which ${stateName} filing deadline controls?`,
+    summary: (stateName) => `The time limit may change with the defendant, claim type, accrual date, discovery rules, the claimant’s age or capacity, and any required pre-suit notice. Confirm the current ${stateName} statute before relying on a date.`,
+    checks: ["Date the claim accrued", "Defendant and claim type", "Notice or tolling rules"],
+  },
+  {
+    id: "fault",
+    label: "Fault rules",
+    heading: (stateName) => `How does ${stateName} treat shared fault?`,
+    summary: (stateName) => `Identify the current ${stateName} negligence framework and whether a claimant’s share of responsibility reduces or prevents recovery. The calculator’s fault slider is only a planning adjustment and does not apply that legal rule.`,
+    checks: ["Liability standard", "Effect of shared fault", "Fault evidence and defenses"],
+  },
+  {
+    id: "damages",
+    label: "Damages",
+    heading: (stateName) => `Which damages may be recoverable in ${stateName}?`,
+    summary: (stateName) => `Review current ${stateName} authority for economic, non-economic, and punitive damages, including limitations that depend on the claim, defendant, or forum. The range above does not apply statutory caps or exclusions.`,
+    checks: ["Recoverable damage categories", "Claim-specific limitations", "Proof required for each loss"],
+  },
+  {
+    id: "coverage",
+    label: "Insurance",
+    heading: (stateName) => `What coverage may respond in ${stateName}?`,
+    summary: (stateName) => `Map every potentially applicable policy and current ${stateName} coverage requirement before treating the estimate as collectible. Policy language, exclusions, limits, priority, and notice duties can change the practical recovery.`,
+    checks: ["Liability policy limits", "First-party or UM/UIM coverage", "Notice, exclusions, and priority"],
+  },
 ];
 
 const fmt = new Intl.NumberFormat("en-US", {
@@ -45,6 +83,7 @@ export function SettlementCalculator({ initialState = "Not selected", stateCode 
   const [fault, setFault] = useState(0);
   const [caseType, setCaseType] = useState("Auto collision");
   const [state, setState] = useState(initialState);
+  const [activeLawTab, setActiveLawTab] = useState<LawTabId>("deadline");
 
   const result = useMemo(() => {
     const economic = Object.values(money).reduce((sum, value) => sum + Math.max(0, value || 0), 0);
@@ -60,6 +99,20 @@ export function SettlementCalculator({ initialState = "Not selected", stateCode 
     setMoney((current) => ({ ...current, [key]: Number(raw) || 0 }));
   };
 
+  const moveLawTabFocus = (event: KeyboardEvent<HTMLButtonElement>, currentIndex: number) => {
+    let nextIndex = currentIndex;
+    if (event.key === "ArrowRight") nextIndex = (currentIndex + 1) % lawTabs.length;
+    else if (event.key === "ArrowLeft") nextIndex = (currentIndex - 1 + lawTabs.length) % lawTabs.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = lawTabs.length - 1;
+    else return;
+
+    event.preventDefault();
+    const nextTab = lawTabs[nextIndex];
+    setActiveLawTab(nextTab.id);
+    requestAnimationFrame(() => document.getElementById(`law-tab-${nextTab.id}`)?.focus());
+  };
+
   const isStateContext = initialState !== "Not selected";
   const heading = !isStateContext
     ? "Estimate your personal injury settlement range"
@@ -68,6 +121,8 @@ export function SettlementCalculator({ initialState = "Not selected", stateCode 
     ? `${initialState} settlement planning range`
     : "Your estimated settlement range";
   const claimArticle = /^[aeiou]/i.test(caseType) ? "an" : "a";
+  const lawState = state !== "Not selected" ? state : initialState;
+  const lawStateCode = states.find((item) => item.name === lawState)?.code ?? stateCode ?? "STATE";
 
   return (
     <div className="calculator-shell" id="calculator">
@@ -154,6 +209,54 @@ export function SettlementCalculator({ initialState = "Not selected", stateCode 
           <p className="fine-print">{isStateContext ? `This general educational estimate does not apply ${initialState} statutes, deadlines, damage caps, or negligence rules.` : "This educational estimate is not legal advice, a valuation, or a promise of recovery."}</p>
         </aside>
       </div>
+      {isStateContext && (
+        <section className="related-law" aria-labelledby="related-law-heading">
+          <div className="related-law-heading">
+            <div>
+              <p>Related law segment · {lawStateCode}</p>
+              <h2 id="related-law-heading">Legal checks for a {lawState} settlement estimate</h2>
+            </div>
+            <span>Research status: verify current primary law</span>
+          </div>
+          <div className="law-tablist" role="tablist" aria-label={`${lawState} related law topics`}>
+            {lawTabs.map((tab, index) => (
+              <button
+                key={tab.id}
+                type="button"
+                id={`law-tab-${tab.id}`}
+                role="tab"
+                aria-selected={activeLawTab === tab.id}
+                aria-controls={`law-panel-${tab.id}`}
+                tabIndex={activeLawTab === tab.id ? 0 : -1}
+                onClick={() => setActiveLawTab(tab.id)}
+                onKeyDown={(event) => moveLawTabFocus(event, index)}
+              >
+                <span>0{index + 1}</span>{tab.label}
+              </button>
+            ))}
+          </div>
+          {lawTabs.map((tab) => (
+            <div
+              className="law-tabpanel"
+              key={tab.id}
+              id={`law-panel-${tab.id}`}
+              role="tabpanel"
+              aria-labelledby={`law-tab-${tab.id}`}
+              hidden={activeLawTab !== tab.id}
+            >
+              <div>
+                <p className="law-topic">{tab.label} · {lawStateCode}</p>
+                <h3>{tab.heading(lawState)}</h3>
+                <p>{tab.summary(lawState)}</p>
+              </div>
+              <ul aria-label={`${tab.label} research checklist`}>
+                {tab.checks.map((check) => <li key={check}>{check}</li>)}
+              </ul>
+            </div>
+          ))}
+          <p className="related-law-disclaimer">Educational issue-spotting only. This segment does not state the controlling law or replace advice from a licensed {lawState} attorney.</p>
+        </section>
+      )}
     </div>
   );
 }

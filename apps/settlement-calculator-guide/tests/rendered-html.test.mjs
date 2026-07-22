@@ -46,6 +46,11 @@ test("server-renders an indexable state settlement guide", async () => {
   assert.match(normalizedHtml, /GENERAL MODEL \/ CA/);
   assert.match(normalizedHtml, /does not apply California statutes/);
   assert.match(normalizedHtml, /for an auto collision claim in California/);
+  assert.match(normalizedHtml, /Legal checks for a California settlement estimate/);
+  assert.match(normalizedHtml, /Filing deadline/);
+  assert.match(normalizedHtml, /Fault rules/);
+  assert.match(normalizedHtml, /Which California filing deadline controls/);
+  assert.match(normalizedHtml, /does not state the controlling law/);
   assert.match(html, /href="\/states\/alabama"/);
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
 });
