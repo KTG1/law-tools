@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
+import { states } from "@/lib/states";
 
 type MoneyKey =
   | "medical"
@@ -25,6 +27,13 @@ const severityBands = [
   { label: "Significant", detail: "Long recovery or lasting symptoms", low: 1.75, high: 3.5 },
   { label: "Severe", detail: "Major treatment or long-term effects", low: 2.75, high: 4.75 },
   { label: "Catastrophic", detail: "Permanent, life-changing injury", low: 4, high: 6.5 },
+];
+
+const stateGroups = [
+  { label: "A–G", states: states.filter((item) => item.name[0] <= "G") },
+  { label: "H–M", states: states.filter((item) => item.name[0] >= "H" && item.name[0] <= "M") },
+  { label: "N–R", states: states.filter((item) => item.name[0] >= "N" && item.name[0] <= "R") },
+  { label: "S–Z", states: states.filter((item) => item.name[0] >= "S") },
 ];
 
 const fmt = new Intl.NumberFormat("en-US", {
@@ -74,6 +83,7 @@ export default function Home() {
         <nav aria-label="Primary navigation">
           <a href="#method">Method</a>
           <a href="#factors">Claim factors</a>
+          <a href="#states">State guides</a>
           <a href="#faq">FAQ</a>
         </nav>
         <button className="header-action" onClick={scrollToCalculator}>Estimate a claim</button>
@@ -117,8 +127,7 @@ export default function Home() {
                 <label>State
                   <select value={state} onChange={(event) => setState(event.target.value)}>
                     <option>Not selected</option>
-                    <option>California</option><option>Florida</option><option>New York</option>
-                    <option>Texas</option><option>Other U.S. state</option>
+                    {states.map((item) => <option key={item.code}>{item.name}</option>)}
                   </select>
                 </label>
               </div>
@@ -219,6 +228,33 @@ export default function Home() {
             ["06", "State law", "Fault rules, damage caps, deadlines, and admissible evidence vary by jurisdiction."],
           ].map(([index, title, copy]) => <article key={index}><span>{index}</span><h3>{title}</h3><p>{copy}</p></article>)}
         </div>
+      </section>
+
+      <section className="section states-section" id="states" aria-labelledby="states-heading">
+        <div className="section-heading split-heading states-heading">
+          <div>
+            <p className="eyebrow">Geographic topic cluster</p>
+            <h2 id="states-heading">Personal injury settlement calculators by state</h2>
+          </div>
+          <p>Explore the calculation framework in a state context. These guides identify what still requires jurisdiction-specific legal review before any estimate can reflect local law.</p>
+        </div>
+        <div className="state-directory">
+          {stateGroups.map((group) => (
+            <div className="state-group" key={group.label}>
+              <h3>{group.label}</h3>
+              <ul>
+                {group.states.map((item) => (
+                  <li key={item.code}>
+                    <Link href={`/states/${item.slug}`}>
+                      <span>{item.name}</span><small>{item.code}</small><i aria-hidden="true">↗</i>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <p className="state-disclaimer"><strong>Scope note:</strong> The current estimator is a general educational model. State pages do not yet apply statutes, damage caps, limitation periods, or negligence rules.</p>
       </section>
 
       <section className="section scope-section" aria-labelledby="interpret-heading">
