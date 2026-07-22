@@ -53,26 +53,18 @@ export default async function StateGuide({ params }: StatePageProps) {
         <Link href="/#states">States</Link><span>/</span><strong>{state.name}</strong>
       </nav>
 
-      <section className="state-guide-hero" aria-labelledby="state-title">
-        <div>
+      <section className="state-tool-hero" aria-labelledby="state-title">
+        <div className="state-tool-context">
           <p className="eyebrow"><span>State guide</span> · {state.code}</p>
           <h1 id="state-title">{state.name} Personal Injury Settlement Calculator</h1>
           <p>Use a transparent planning model to organize documented losses, injury impact, and possible fault before reviewing the {state.name}-specific rules that may change a claim.</p>
-          <a className="state-primary-link" href="#calculator">Calculate a general settlement range <span>→</span></a>
+          <aside className="state-status" aria-labelledby="review-status-heading">
+            <p>MODEL ANNOTATION</p>
+            <h2 id="review-status-heading">{state.name} context, general formula</h2>
+            <p>The state is preselected, but its statutes, deadlines, damage caps, and negligence rules are not yet applied.</p>
+          </aside>
         </div>
-        <aside className="state-status" aria-labelledby="review-status-heading">
-          <p>LEGAL REVIEW STATUS</p>
-          <h2 id="review-status-heading">{state.name} law is not yet applied</h2>
-          <p>The current calculator does not apply state statutes, deadlines, damage caps, or negligence rules. Its output remains a general educational range.</p>
-        </aside>
-      </section>
-
-      <section className="state-calculator-area" aria-label={`${state.name} settlement calculator`}>
-        <div className="state-calculator-intro">
-          <p className="eyebrow">Use the tool here</p>
-          <p>{state.name} is preselected for context. The calculation remains the same transparent general model used on the homepage.</p>
-        </div>
-        <SettlementCalculator initialState={state.name} />
+        <SettlementCalculator initialState={state.name} stateCode={state.code} />
       </section>
 
       <section className="state-guide-content" aria-labelledby="value-heading">

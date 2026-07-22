@@ -41,8 +41,10 @@ test("server-renders an indexable state settlement guide", async () => {
   const normalizedHtml = html.replaceAll(/<!--.*?-->/g, "");
   assert.match(normalizedHtml, /California Personal Injury Settlement Calculator/);
   assert.match(normalizedHtml, /What can affect a personal injury settlement in California/);
-  assert.match(normalizedHtml, /California law is not yet applied/);
-  assert.match(normalizedHtml, /Estimate your California personal injury settlement range/);
+  assert.match(normalizedHtml, /California context, general formula/);
+  assert.match(normalizedHtml, /Calculate a California personal injury settlement range/);
+  assert.match(normalizedHtml, /GENERAL MODEL \/ CA/);
+  assert.match(normalizedHtml, /does not apply California statutes/);
   assert.match(normalizedHtml, /for an auto collision claim in California/);
   assert.match(html, /href="\/states\/alabama"/);
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);

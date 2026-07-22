@@ -30,9 +30,10 @@ const fmt = new Intl.NumberFormat("en-US", {
 
 type SettlementCalculatorProps = {
   initialState?: string;
+  stateCode?: string;
 };
 
-export function SettlementCalculator({ initialState = "Not selected" }: SettlementCalculatorProps) {
+export function SettlementCalculator({ initialState = "Not selected", stateCode }: SettlementCalculatorProps) {
   const [money, setMoney] = useState<MoneyFields>({
     medical: 18500,
     futureMedical: 6000,
@@ -59,19 +60,26 @@ export function SettlementCalculator({ initialState = "Not selected" }: Settleme
     setMoney((current) => ({ ...current, [key]: Number(raw) || 0 }));
   };
 
-  const heading = initialState === "Not selected"
+  const isStateContext = initialState !== "Not selected";
+  const heading = !isStateContext
     ? "Estimate your personal injury settlement range"
-    : `Estimate your ${initialState} personal injury settlement range`;
+    : `Calculate a ${initialState} personal injury settlement range`;
+  const resultHeading = isStateContext
+    ? `${initialState} settlement planning range`
+    : "Your estimated settlement range";
   const claimArticle = /^[aeiou]/i.test(caseType) ? "an" : "a";
 
   return (
     <div className="calculator-shell" id="calculator">
-      <div className="case-tab"><span>Working file</span><strong>CLAIM / 001</strong></div>
+      <div className="case-tab">
+        <span>{isStateContext ? `${initialState} context` : "Working file"}</span>
+        <strong>{stateCode ? `GENERAL MODEL / ${stateCode}` : "CLAIM / 001"}</strong>
+      </div>
       <div className="calculator-grid">
         <form className="calculator-form" onSubmit={(event) => event.preventDefault()}>
           <div className="form-heading">
             <span>01</span>
-            <div><h2>{heading}</h2><p>Use documented amounts where possible.</p></div>
+            <div><h2>{heading}</h2><p>{isStateContext ? `${initialState} is preselected. Use documented amounts where possible.` : "Use documented amounts where possible."}</p></div>
           </div>
 
           <div className="field-pair">
@@ -121,7 +129,7 @@ export function SettlementCalculator({ initialState = "Not selected" }: Settleme
 
         <aside className="result-panel" aria-labelledby="estimate-heading" aria-live="polite">
           <p className="result-kicker">Planning range</p>
-          <h2 className="result-title" id="estimate-heading">Your estimated settlement range</h2>
+          <h2 className="result-title" id="estimate-heading">{resultHeading}</h2>
           <div className="result-range">
             <span>{fmt.format(result.low)}</span>
             <i>to</i>
@@ -143,7 +151,7 @@ export function SettlementCalculator({ initialState = "Not selected" }: Settleme
           <button type="button" className="copy-button" onClick={() => navigator.clipboard?.writeText(`Settlement planning range: ${fmt.format(result.low)}–${fmt.format(result.high)}. Generated at settlementcalculator.guide.`)}>
             Copy estimate summary
           </button>
-          <p className="fine-print">This educational estimate is not legal advice, a valuation, or a promise of recovery.</p>
+          <p className="fine-print">{isStateContext ? `This general educational estimate does not apply ${initialState} statutes, deadlines, damage caps, or negligence rules.` : "This educational estimate is not legal advice, a valuation, or a promise of recovery."}</p>
         </aside>
       </div>
     </div>

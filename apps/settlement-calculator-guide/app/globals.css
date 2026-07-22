@@ -147,20 +147,16 @@ blockquote { margin: 0; font: 400 clamp(25px, 3vw, 39px)/1.18 var(--editorial); 
 .state-breadcrumb { display: flex; gap: 10px; align-items: center; padding: 20px max(4.5vw, calc((100vw - 1180px)/2)); color: var(--muted); font-size: 10px; border-bottom: 1px solid var(--line); }
 .state-breadcrumb a:hover { color: var(--cobalt); }
 .state-breadcrumb strong { color: var(--ink); }
-.state-guide-hero { padding: 82px max(4.5vw, calc((100vw - 1180px)/2)) 90px; background: linear-gradient(125deg, #eef1fc, #f9fafe); display: grid; grid-template-columns: 1.45fr .55fr; gap: 8vw; align-items: end; }
-.state-guide-hero h1 { max-width: 850px; margin: 20px 0 25px; font: 900 clamp(55px, 7vw, 96px)/.88 var(--display); letter-spacing: -.068em; text-wrap: balance; }
-.state-guide-hero > div > p:last-of-type { max-width: 680px; color: var(--muted); font: 400 20px/1.5 var(--editorial); }
-.state-primary-link { display: inline-flex; align-items: center; justify-content: space-between; min-width: 330px; margin-top: 25px; padding: 15px 18px; background: var(--cobalt); color: white; font-size: 12px; font-weight: 800; }
-.state-primary-link:hover { background: var(--ink); }
-.state-status { background: var(--signal); color: var(--ink); padding: 28px; border-top: 5px solid var(--ink); box-shadow: 13px 13px 0 var(--coral); }
+.state-tool-hero { padding: 48px max(3vw, calc((100vw - 1360px)/2)) 82px; background: var(--ink); display: grid; grid-template-columns: minmax(275px, .42fr) minmax(760px, 1.58fr); gap: 4vw; align-items: start; }
+.state-tool-context { color: white; position: sticky; top: 112px; }
+.state-tool-context > .eyebrow { color: var(--signal); }
+.state-tool-context h1 { margin: 20px 0 22px; font: 900 clamp(43px, 4.5vw, 68px)/.88 var(--display); letter-spacing: -.06em; text-wrap: balance; }
+.state-tool-context > p:not(.eyebrow) { color: #aeb7d3; font: 400 17px/1.5 var(--editorial); }
+.state-tool-hero .calculator-shell { width: 100%; margin: 0; }
+.state-status { margin-top: 38px; background: var(--signal); color: var(--ink); padding: 23px; border-top: 5px solid var(--coral); box-shadow: 9px 9px 0 var(--cobalt); }
 .state-status > p:first-child { font: 900 9px/1 var(--display); letter-spacing: .16em; }
-.state-status h2 { font: 900 27px/1.02 var(--display); letter-spacing: -.045em; margin: 30px 0 12px; }
+.state-status h2 { font: 900 24px/1.02 var(--display); letter-spacing: -.045em; margin: 24px 0 10px; }
 .state-status > p:last-child { font-size: 11px; line-height: 1.6; }
-.state-calculator-area { padding: 78px max(4.5vw, calc((100vw - 1180px)/2)) 100px; background: var(--ink); }
-.state-calculator-intro { display: flex; justify-content: space-between; gap: 30px; align-items: end; margin: 0 0 46px; }
-.state-calculator-intro .eyebrow { color: var(--signal); margin: 0; }
-.state-calculator-intro > p:last-child { max-width: 520px; margin: 0; color: #aeb7d3; font-size: 12px; line-height: 1.6; }
-.state-calculator-area .calculator-shell { margin: 0 auto; }
 .state-guide-content { padding: 105px max(4.5vw, calc((100vw - 1180px)/2)); background: white; display: grid; grid-template-columns: 1.5fr .5fr; gap: 7vw; align-items: start; }
 .state-guide-main > h2 { max-width: 760px; margin: 16px 0 20px; font: 900 clamp(42px, 5vw, 68px)/.94 var(--display); letter-spacing: -.058em; }
 .state-guide-main > p:not(.eyebrow) { color: var(--muted); line-height: 1.65; max-width: 720px; }
@@ -220,6 +216,12 @@ footer > div { display: flex; justify-content: flex-end; gap: 24px; font-size: 1
 
 :focus-visible { outline: 3px solid var(--signal); outline-offset: 3px; }
 
+@media (max-width: 1180px) {
+  .state-tool-hero { grid-template-columns: 1fr; }
+  .state-tool-context { position: static; max-width: 720px; }
+  .state-status { max-width: 430px; }
+}
+
 @media (max-width: 900px) {
   nav { display: none; }
   .hero { padding-top: 45px; }
@@ -232,7 +234,8 @@ footer > div { display: flex; justify-content: flex-end; gap: 24px; font-size: 1
   .method-cards, .factor-grid { grid-template-columns: 1fr; }
   .state-directory { grid-template-columns: 1fr 1fr; }
   .method-cards article { border-right: 0; border-bottom: 1px solid var(--line); }
-  .split-heading, .scope-section, .final-cta, .state-guide-hero, .state-guide-content, .related-states { grid-template-columns: 1fr; }
+  .split-heading, .scope-section, .final-cta, .state-tool-hero, .state-guide-content, .related-states { grid-template-columns: 1fr; }
+  .state-tool-context { position: static; max-width: 720px; }
   .state-status { max-width: 430px; }
   .state-checklist { position: static; }
   .scope-aside { max-width: 420px; }
@@ -259,13 +262,9 @@ footer > div { display: flex; justify-content: flex-end; gap: 24px; font-size: 1
   .method-cards article, .factor-grid article { min-height: auto; }
   .state-directory, .state-factor-list, .related-state-links { grid-template-columns: 1fr; }
   .state-group h3 { border-top: 2px solid var(--paper); }
-  .state-guide-hero { padding: 60px 18px 70px; }
-  .state-guide-hero h1 { font-size: 52px; }
-  .state-primary-link { min-width: 0; width: 100%; }
+  .state-tool-hero { padding: 48px 18px 70px; }
+  .state-tool-context h1 { font-size: 52px; }
   .state-guide-content, .related-states { padding: 75px 18px; }
-  .state-calculator-area { padding: 70px 18px 80px; }
-  .state-calculator-intro { display: block; }
-  .state-calculator-intro > p:last-child { margin-top: 14px; }
   .state-factor-list article { min-height: auto; }
   .related-state-links a:nth-child(odd), .related-state-links a:nth-child(even) { padding: 15px 4px; border-left: 0; }
   .editorial-note { grid-template-columns: 1fr; }
