@@ -3,12 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://settlementcalculator.guide"),
-  title: "Settlement Calculator Guide | Estimate an Injury Claim Range",
+  title: "Personal Injury Settlement Calculator | Estimate Claim Value",
   description: "Build a transparent personal injury settlement planning range from documented losses, injury impact, and possible fault—without a lead form.",
   applicationName: "Settlement Calculator Guide",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "What could your injury claim be worth?",
+    title: "Personal Injury Settlement Calculator",
     description: "A transparent settlement planning tool that shows its formula and assumptions.",
     url: "/",
     siteName: "Settlement Calculator Guide",

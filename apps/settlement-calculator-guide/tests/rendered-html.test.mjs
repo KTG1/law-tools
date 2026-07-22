@@ -20,8 +20,12 @@ test("server-renders the settlement calculator homepage", async () => {
 
   const html = await response.text();
   assert.match(html, /Settlement Calculator Guide/);
-  assert.match(html, /What could your injury claim be worth/);
-  assert.match(html, /Build your estimate/);
-  assert.match(html, /Method before marketing/);
+  assert.match(html, /Personal Injury Settlement Calculator/);
+  assert.match(html, /Estimate your personal injury settlement range/);
+  assert.match(html, /How a personal injury settlement estimate is calculated/);
+  assert.match(html, /What factors affect a personal injury settlement value/);
+  assert.match(html, /How to interpret your settlement estimate/);
+  assert.match(html, /Frequently asked questions about settlement calculators/);
+  assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Starter Project/);
 });

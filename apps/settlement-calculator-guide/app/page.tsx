@@ -79,10 +79,10 @@ export default function Home() {
         <button className="header-action" onClick={scrollToCalculator}>Estimate a claim</button>
       </header>
 
-      <section className="hero" id="top">
+      <section className="hero" id="top" aria-labelledby="page-title">
         <div className="hero-copy">
           <p className="eyebrow"><span>Independent methodology</span> · Updated July 2026</p>
-          <h1>What could your injury claim be worth?</h1>
+          <h1 id="page-title">Personal Injury Settlement Calculator</h1>
           <p className="hero-lede">
             Build a documented settlement range from the costs you know, the impact of the injury,
             and your share of fault. See the reasoning—not a mystery number.
@@ -101,7 +101,7 @@ export default function Home() {
             <form className="calculator-form" onSubmit={(event) => event.preventDefault()}>
               <div className="form-heading">
                 <span>01</span>
-                <div><h2>Build your estimate</h2><p>Use documented amounts where possible.</p></div>
+                <div><h2>Estimate your personal injury settlement range</h2><p>Use documented amounts where possible.</p></div>
               </div>
 
               <div className="field-pair">
@@ -150,8 +150,9 @@ export default function Home() {
               </fieldset>
             </form>
 
-            <aside className="result-panel" aria-live="polite">
+            <aside className="result-panel" aria-labelledby="estimate-heading" aria-live="polite">
               <p className="result-kicker">Planning range</p>
+              <h2 className="result-title" id="estimate-heading">Your estimated settlement range</h2>
               <div className="result-range">
                 <span>{fmt.format(result.low)}</span>
                 <i>to</i>
@@ -185,16 +186,16 @@ export default function Home() {
         <div><span>Known losses</span><b>+</b><span>Human impact</span><b>−</b><span>Responsibility</span><b>=</b><strong>Planning range</strong></div>
       </section>
 
-      <section className="section method" id="method">
+      <section className="section method" id="method" aria-labelledby="method-heading">
         <div className="section-heading">
           <p className="eyebrow">Method before marketing</p>
-          <h2>A settlement calculator should show its work.</h2>
+          <h2 id="method-heading">How a personal injury settlement estimate is calculated</h2>
           <p>Most claim values cannot be reduced to one precise number. We publish the assumptions so you can challenge them, replace them, or take them to a qualified lawyer.</p>
         </div>
         <div className="method-cards">
-          <article><span>Input</span><h3>Start with records</h3><p>Medical bills, future care, missed earnings, damaged property, and other receipts create the economic base.</p></article>
-          <article><span>Range</span><h3>Model impact, not pain points</h3><p>An impact band creates low and high scenarios. It is intentionally broad because injuries and evidence differ.</p></article>
-          <article><span>Adjustment</span><h3>Account for responsibility</h3><p>A possible fault share reduces the range. Your jurisdiction may cap damages or apply different negligence rules.</p></article>
+          <article><span>Input</span><h3>Add documented economic damages</h3><p>Medical bills, future care, missed earnings, damaged property, and other receipts create the economic base.</p></article>
+          <article><span>Range</span><h3>Estimate pain and suffering impact</h3><p>An impact band creates low and high scenarios. It is intentionally broad because injuries and evidence differ.</p></article>
+          <article><span>Adjustment</span><h3>Apply a comparative fault adjustment</h3><p>A possible fault share reduces the range. Your jurisdiction may cap damages or apply different negligence rules.</p></article>
         </div>
         <div className="editorial-note">
           <div className="note-index">K / 01</div>
@@ -203,9 +204,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section factors" id="factors">
+      <section className="section factors" id="factors" aria-labelledby="factors-heading">
         <div className="section-heading split-heading">
-          <div><p className="eyebrow">Value drivers</p><h2>Six facts that can move a claim.</h2></div>
+          <div><p className="eyebrow">Value drivers</p><h2 id="factors-heading">What factors affect a personal injury settlement value?</h2></div>
           <p>The calculator covers a starting model. Real negotiations also turn on evidence quality, coverage, causation, and local law.</p>
         </div>
         <div className="factor-grid">
@@ -220,10 +221,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section scope-section">
+      <section className="section scope-section" aria-labelledby="interpret-heading">
         <div className="scope-card">
           <p className="eyebrow">Information gain</p>
-          <h2>One estimate. Four questions to ask next.</h2>
+          <h2 id="interpret-heading">How to interpret your settlement estimate</h2>
           <ol>
             <li><span>Is every loss supported by a record?</span><small>Replace memory with bills, reports, wage statements, and dates.</small></li>
             <li><span>Which facts could weaken causation?</span><small>Prior injuries and treatment gaps often need context, not concealment.</small></li>
@@ -239,19 +240,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section faq" id="faq">
-        <div className="section-heading"><p className="eyebrow">Plain answers</p><h2>Settlement calculator FAQ</h2></div>
+      <section className="section faq" id="faq" aria-labelledby="faq-heading">
+        <div className="section-heading"><p className="eyebrow">Plain answers</p><h2 id="faq-heading">Frequently asked questions about settlement calculators</h2></div>
         <div className="faq-list">
-          <details open><summary>Is this settlement estimate accurate?<span>+</span></summary><p>It is a planning model, not a prediction. It uses the values you provide and a disclosed impact range. Evidence, insurance, jurisdiction, negotiation, and many case-specific facts can produce a materially different outcome.</p></details>
-          <details><summary>Why does the calculator give a range?<span>+</span></summary><p>A range makes uncertainty visible. A single dollar result suggests a level of precision that a general-purpose calculator cannot support.</p></details>
-          <details><summary>Does the multiplier apply in every case?<span>+</span></summary><p>No. The impact band is an educational shortcut for scenario planning. Insurers, lawyers, judges, and juries do not have to use it.</p></details>
-          <details><summary>Does selecting a state apply that state’s law?<span>+</span></summary><p>Not yet. The current state field provides context only. State-specific rule modules and cited legal sources are planned for later releases.</p></details>
+          <details open><summary><h3>Is this settlement estimate accurate?</h3><span>+</span></summary><p>It is a planning model, not a prediction. It uses the values you provide and a disclosed impact range. Evidence, insurance, jurisdiction, negotiation, and many case-specific facts can produce a materially different outcome.</p></details>
+          <details><summary><h3>Why does the calculator give a range?</h3><span>+</span></summary><p>A range makes uncertainty visible. A single dollar result suggests a level of precision that a general-purpose calculator cannot support.</p></details>
+          <details><summary><h3>How are pain and suffering damages estimated?</h3><span>+</span></summary><p>The calculator applies a disclosed impact band to treatment costs for scenario planning. This multiplier is an educational shortcut, not a legal standard or a method that insurers, lawyers, judges, or juries must use.</p></details>
+          <details><summary><h3>Does selecting a state apply that state’s settlement law?</h3><span>+</span></summary><p>Not yet. The current state field provides context only. State-specific rule modules and cited legal sources are planned for later releases.</p></details>
         </div>
       </section>
 
-      <section className="final-cta">
+      <section className="final-cta" aria-labelledby="final-heading">
         <p>Estimate the range. Inspect the assumptions.</p>
-        <h2>Turn a vague claim value into a better set of questions.</h2>
+        <h2 id="final-heading">Calculate your personal injury settlement range</h2>
         <button onClick={scrollToCalculator}>Open the calculator <span>↑</span></button>
       </section>
 
