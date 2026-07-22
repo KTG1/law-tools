@@ -52,8 +52,7 @@ export default async function CityGuide({ params }: CityPageProps) {
       </header>
 
       <nav className="state-breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Settlement Calculator Guide</Link><span>/</span>
-        <Link href="/#states">States</Link><span>/</span>
+        <Link href="/">Home</Link><span>/</span>
         <Link href={`/states/${city.stateSlug}`}>{city.stateName}</Link><span>/</span>
         <strong>{city.name}</strong>
       </nav>

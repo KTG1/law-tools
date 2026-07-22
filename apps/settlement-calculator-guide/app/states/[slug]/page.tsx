@@ -51,8 +51,7 @@ export default async function StateGuide({ params }: StatePageProps) {
       </header>
 
       <nav className="state-breadcrumb" aria-label="Breadcrumb">
-        <Link href="/">Settlement Calculator Guide</Link><span>/</span>
-        <Link href="/#states">States</Link><span>/</span><strong>{state.name}</strong>
+        <Link href="/">Home</Link><span>/</span><strong>{state.name}</strong>
       </nav>
 
       <section className="state-tool-hero" aria-labelledby="state-title">

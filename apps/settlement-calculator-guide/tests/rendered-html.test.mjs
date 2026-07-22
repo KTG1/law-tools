@@ -52,6 +52,7 @@ test("server-renders an indexable state settlement guide", async () => {
   assert.match(normalizedHtml, /Which California filing deadline controls/);
   assert.match(normalizedHtml, /does not state the controlling law/);
   assert.match(normalizedHtml, /Cities in California/);
+  assert.match(normalizedHtml, /<nav class="state-breadcrumb"[^>]*><a href="\/">Home<\/a><span>\/<\/span><strong>California<\/strong><\/nav>/);
   assert.match(html, /href="\/states\/california\/los-angeles"/);
   assert.ok(normalizedHtml.indexOf("Cities in California") < normalizedHtml.indexOf("Other state settlement guides"));
   assert.match(html, /href="\/states\/alabama"/);
@@ -69,6 +70,7 @@ test("server-renders a nested city settlement guide", async () => {
   assert.match(normalizedHtml, /Calculate an Alabama personal injury settlement range/);
   assert.match(normalizedHtml, /Legal checks for an Alabama settlement estimate/);
   assert.match(normalizedHtml, /What to organize for a claim connected with Birmingham/);
+  assert.match(normalizedHtml, /<nav class="state-breadcrumb"[^>]*><a href="\/">Home<\/a><span>\/<\/span><a href="\/states\/alabama">Alabama<\/a><span>\/<\/span><strong>Birmingham<\/strong><\/nav>/);
   assert.match(html, /href="\/states\/alabama\/montgomery"/);
   assert.match(html, /href="\/states\/alabama"/);
   assert.equal((html.match(/<h1\b/gi) ?? []).length, 1);
