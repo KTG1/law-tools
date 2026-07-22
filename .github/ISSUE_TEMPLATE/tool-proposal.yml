@@ -1,0 +1,43 @@
+name: Tool proposal
+description: Propose a new legal-information tool.
+title: "[Tool]: "
+labels: ["tool-proposal"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What should this tool help a visitor understand or do?
+    validations:
+      required: true
+  - type: input
+    id: jurisdiction
+    attributes:
+      label: Jurisdiction
+      placeholder: Country, state, province, court, or other scope
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Primary legal sources
+      description: Link statutes, regulations, rules, or official guidance.
+    validations:
+      required: true
+  - type: dropdown
+    id: targets
+    attributes:
+      label: Initial delivery target
+      options:
+        - WordPress plugin
+        - Standalone website
+        - Both
+    validations:
+      required: true
+  - type: textarea
+    id: data
+    attributes:
+      label: Data and privacy
+      description: What user, client, or case data would the tool process or retain?
+    validations:
+      required: true
